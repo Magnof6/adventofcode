@@ -32,5 +32,31 @@ def contar_XMAS(memoria):
                     if found:
                         count += 1
         return count
+    
+def contar_X_MAS(memoria): #Buscamos un patron en forma de X con la palabra MAS
+    with open(memoria, 'r') as file:
+        data = file.read().splitlines()
+        rows = len(data)
+        cols = len(data[0])
+        count = 0
+        
+        for r in range(rows - 2):#evitamos desbordes en filas
+            for c in range(cols - 2): #evitamos desbordes en columnas
+                tl = data[r][c]     # top-left
+                tr = data[r][c + 2] # top-right
+                mid = data[r + 1][c + 1] # middle
+                bl = data[r + 2][c] # bottom-left
+                br = data[r + 2][c + 2] # bottom-right
+                
+                if mid != 'A':
+                    continue # La letra del medio debe ser 'A'
+                diag1 = tl + mid + br
+                diag2 = tr + mid + bl
+                
+                if (diag1 in ["MAS", "SAM"]) and (diag2 in ["MAS", "SAM"]):
+                    count += 1
+        return count
+    
 
 print("Total de XMAS encontrados es:", contar_XMAS(df))
+print("Total de X MAS encontrados es:", contar_X_MAS(df))
